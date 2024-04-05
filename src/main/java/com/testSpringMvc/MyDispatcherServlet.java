@@ -93,8 +93,6 @@ public class MyDispatcherServlet extends HttpServlet {
         for (int i = 0; i<parameterTypes.length; i++){
             //根据参数名称，做某些处理
             String requestParam = parameterTypes[i].getSimpleName();
-
-
             if (requestParam.equals("HttpServletRequest")){
                 //参数类型已明确，这边强转类型
                 paramValues[i]=req;
@@ -104,12 +102,6 @@ public class MyDispatcherServlet extends HttpServlet {
                 paramValues[i]=resp;
                 continue;
             }
-//            if(requestParam.equals("String")){
-//                for (Entry<String, String[]> param : parameterMap.entrySet()) {
-//                    String value =Arrays.toString(param.getValue()).replaceAll("\\[|\\]", "").replaceAll(",\\s", ",");
-//                    paramValues[i]=value;
-//                }
-//            }
         }
         //利用反射机制来调用
         Object invoke = null;

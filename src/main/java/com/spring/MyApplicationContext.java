@@ -3,6 +3,7 @@ package com.spring;
 import com.spring.annotation.*;
 import com.spring.bean.BeanDefinition;
 import com.spring.lifeStyle.BeanPostProcessor;
+import com.spring.lifeStyle.InitializingBean;
 import com.spring.utils.AnnotationUtil;
 import com.spring.utils.ObjectUtils;
 //import org.springframework.core.annotation.AnnotatedElementUtils;
@@ -78,10 +79,15 @@ public class MyApplicationContext {
                     field.set(classInstance,getBean(fieldBeanName));
                 }
             }
+            //实例化前
             for (BeanPostProcessor beanPostProcessor : beanPostProcessorList) {
                 beanPostProcessor.postProcessBeforeInitialization(classInstance,beanName);
             }
-
+            //如果实现InitializingBean该接口，就执行方法
+            if(classInstance instanceof InitializingBean){
+                ((InitializingBean) classInstance).afterPropertiesSet();
+            }
+            //实例化后
             for (BeanPostProcessor beanPostProcessor : beanPostProcessorList) {
                 beanPostProcessor.postProcessAfterInitialization(classInstance,beanName);
             }
@@ -92,6 +98,8 @@ public class MyApplicationContext {
         } catch (InvocationTargetException e) {
             throw new RuntimeException(e);
         } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
         return classInstance;
@@ -168,28 +176,6 @@ public class MyApplicationContext {
                     //获取到对应Class的内容
                     Class<?> classFile = classLoader.loadClass(path);
                     String beanName = "";
-                    // 获取类的所有注解,判断该类是否有injectAnnotationList包含的注解
-//                    Service annotation = classFile.getAnnotation(Service.class);
-//                    if(annotation!=null){
-//
-//                        Class<? extends Annotation> aClass = annotation.annotationType();
-//
-//
-//                        String value1 = annotation.value();
-//                        Component annotation1 = aClass.getAnnotation(Component.class);
-//                        String value = annotation1.value();
-//                        if(value!=null){
-//
-//                        }
-//                    }
-//
-//                    Annotation[] classAnnotations = classFile.getAnnotations();
-//                    for (Annotation classAnnotation : classAnnotations) {
-//                        if(injectAnnotationList.contains(classAnnotation.annotationType())){
-//                            beanName = BeanUtils.getBeanNameByClassFile(classFile, classAnnotation.annotationType());
-//                            break;
-//                        }
-//                    }
                     Component componentAnnotation = AnnotationUtil.findMergedAnnotation(classFile, Component.class);
                     if(!ObjectUtils.isEmpty(componentAnnotation)){
                         beanName = "".equals(componentAnnotation.value()) ? Introspector.decapitalize(classFile.getSimpleName()) : componentAnnotation.value();

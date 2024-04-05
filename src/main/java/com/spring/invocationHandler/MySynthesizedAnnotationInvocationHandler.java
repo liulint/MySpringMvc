@@ -1,4 +1,4 @@
-package com.spring.annotation;
+package com.spring.invocationHandler;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

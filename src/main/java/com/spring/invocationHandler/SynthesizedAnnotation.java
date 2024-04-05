@@ -1,4 +1,4 @@
-package com.spring.annotation;
+package com.spring.invocationHandler;
 
 public interface SynthesizedAnnotation {
 }

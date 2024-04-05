@@ -17,14 +17,14 @@ public class TestController {
     @Qualifier("wewefwef")
     OneService oneService;
  
-    @RequestMapping(value = "/doTest",method = RequestMethod.GET)
+    @RequestMapping(value = "/test",method = RequestMethod.GET)
     public String test1(HttpServletRequest request, HttpServletResponse response){
       return oneService.test1();
     }
   
   
-    @RequestMapping(value = "/doTest2",method = RequestMethod.POST)
+    @RequestMapping(value = "/test2",method = RequestMethod.POST)
     public String test2(HttpServletRequest request, HttpServletResponse response){
-      return "springboot doTest2 method success!";
+      return "test2方法";
     }
 }

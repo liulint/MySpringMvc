@@ -1,8 +1,8 @@
 package com.spring.utils;
 
 import com.spring.annotation.AliasFor;
-import com.spring.annotation.MySynthesizedAnnotationInvocationHandler;
-import com.spring.annotation.SynthesizedAnnotation;
+import com.spring.invocationHandler.MySynthesizedAnnotationInvocationHandler;
+import com.spring.invocationHandler.SynthesizedAnnotation;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
